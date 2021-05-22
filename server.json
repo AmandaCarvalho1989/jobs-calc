@@ -1,0 +1,25 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "title": "Pizzaria Guloso",
+      "deadline": 3,
+      "price": 4500,
+      "status": "DOING"
+    },
+    {
+      "id": "2",
+      "title": "Prust Modas",
+      "deadline": 7,
+      "price": 4500,
+      "status": "DONE"
+    },
+    {
+      "id": "3",
+      "title": "Onetwo Project",
+      "deadline": 1,
+      "price": 700,
+      "status": "DONE"
+    }
+  ]
+}
