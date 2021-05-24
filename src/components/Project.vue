@@ -15,9 +15,15 @@
       Em andamento
     </div>
     <div v-else class="status done">Encerrado</div>
-
     <div class="buttons">
-      <button>
+      <button
+        @click="
+          $router.push({
+            name: 'Job',
+            params: { id: project.id, project },
+          })
+        "
+      >
         <img src="../assets/edit.svg" alt="Edit" />
       </button>
       <button>

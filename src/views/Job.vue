@@ -38,6 +38,9 @@ export default Vue.extend({
     Header,
     Input,
   },
+  mounted(){
+    console.log(this.$route)
+  }
 });
 </script>
 
