@@ -48,6 +48,8 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 div.project {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 96px;
   background: #fcfdff;
@@ -60,11 +62,16 @@ div.project {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
-  transition: border 0.5s;
+  transition: border background-color 0.5s;
 
   &:hover {
     border-left: 4px solid #f1972c;
-  transition: border 0.5s;
+    /* background: linear-gradient(
+      90deg,
+      rgba(250, 156, 45, 0.1) 0.45%,
+      rgba(252, 253, 255, 0.1) 31.4%
+    ); */
+    transition: border 0.5s;
   }
 
   span {

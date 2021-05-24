@@ -36,14 +36,14 @@
             <p>Encerrados</p>
           </div>
         </div>
-        <button>
+        <button @click="$router.push('/job')">
           <img src="../assets/plus.svg" alt="plus" />
           Adicionar Novo Job
         </button>
       </div>
     </div>
     <main>
-      <div v-for="project in projects" :key="project.id">
+      <div v-for="project in projects" :key="project.id" class="projects">
         <Project :project="project" />
       </div>
     </main>
@@ -102,6 +102,7 @@ div.top-panel {
   justify-content: flex-start;
   align-items: center;
   padding-top: 32px;
+    color: #fcfdff;
 
   header {
     width: 100%;
@@ -206,5 +207,9 @@ main {
   width: 100%;
   max-width: 1120px;
   top: 232px;
+
+  > div.projects{
+    position: relative;
+  }
 }
 </style>
