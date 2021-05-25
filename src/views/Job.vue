@@ -4,21 +4,47 @@
     <main>
       <form>
         <h1>Dados do Job</h1>
-        <Input name="title" label="Nome do Job?" />
+
+        <Input
+          name="title"
+          label="Nome do Job"
+          v-model="title"
+          :value="job ? job.title : title"
+        />
         <div class="input-group">
-          <Input name="daysToWorkWeek" label="Estimativa de horas por dia" />
           <Input
-            name="weeksForVacation"
+            name="dailyHours"
+            label="Estimativa de horas por dia"
+            type="number"
+            v-model="dailyHours"
+            :value="job.dailyHours || dailyHours"
+          />
+          <Input
+            name="totalHours"
             label="Estimativa de horas para esse job"
+            type="number"
+            v-model="totalHours"
+            :value="job ? job.totalHours : totalHours"
           />
         </div>
+
+        <p>
+          {{ job }}
+        </p>
       </form>
 
       <section class="illustration">
-        <img src="../assets/money-disabled.svg" alt="Money" />
+        <img
+          v-if="job && job.title && job.title.length"
+          src="../assets/money-filled.svg"
+          alt="Money"
+        />
+        <img v-else src="../assets/money-disabled.svg" alt="Money" />
         <p>Preencha os dados ao lado para ver o valor do projeto</p>
         <div class="action-buttons">
-          <button class="save">Salvar</button>
+          <button class="save" @click="job ? updatedJob : createJob">
+            Salvar
+          </button>
           <button class="delete">
             <img src="../assets/delete.svg" alt="Delete" />
           </button>
@@ -32,15 +58,50 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
+import api from "@/services/api";
+
 export default Vue.extend({
   name: "Home",
   components: {
     Header,
     Input,
   },
-  mounted(){
-    console.log(this.$route)
-  }
+
+  data() {
+    return {
+      title: "",
+      totalHours: 0,
+      dailyHours: 0,
+      job: {},
+    };
+  },
+  mounted() {
+    this.job = this.$route.params.job;
+    console.log(this.$route.params.job);
+  },
+  methods: {
+    async createJob() {
+      const newJob = {
+        title: this.title,
+        dailyHours: Number(this.dailyHours),
+        totalHours: Number(this.totalHours),
+        createdAt: new Date(),
+      };
+
+      return await api.post("/jobs", { ...newJob });
+    },
+
+    async updateJob() {
+      const id = this.job;
+      const newJob = {
+        title: this.title,
+        dailyHours: Number(this.dailyHours),
+        totalHours: Number(this.totalHours),
+      };
+
+      return await api.put(`/jobs/${id}`, { ...newJob });
+    },
+  },
 });
 </script>
 

@@ -3,46 +3,65 @@
     <Header :label="`Meu perfil`" />
     <main>
       <div class="profile-info">
-        <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-          alt="Profile image"
-        />
-        <h2>Jaqueline</h2>
+        <img :src="profile.pictureLink" alt="Profile image" />
+        <h2>{{ profile.name }}</h2>
         <p>
           O valor da sua hora é
 
-          <strong>R$ 75,00 reais</strong>
+          <strong>R$ {{ profile.valueHour }} </strong>
         </p>
-        <button>Salvar dados</button>
+        <button @click="updateProfile">Salvar dados</button>
       </div>
       <div class="profile-data">
         <section>
           <h1>Dados do perfil</h1>
           <div class="input-group">
-            <Input name="name" placeholder="Name" label="" />
-            <Input name="avatarUrl" placeholder="Picture Link" label="" />
+            <Input
+              name="name"
+              placeholder="Name"
+              label=""
+              :value="profile.name"
+            />
+            <Input
+              name="pictureLink"
+              placeholder="Picture Link"
+              label=""
+              :value="profile.pictureLink"
+            />
           </div>
         </section>
         <section>
           <h1>Planejamento</h1>
           <div class="input-group">
             <Input
-              name="monthlySalary"
+              name="monthlyBudget"
               label="Quanto eu quero ganhar por mês?"
+              type="number"
+              v-model="profile.monthlyBudget"
+              :value="profile.monthlyBudget"
             />
             <Input
-              name="hoursByDay"
+              name="hoursPerDay"
               label="Quantas horas quero trabalhar por dia?"
+              type="number"
+              v-model="profile.hoursPerDay"
+              :value="profile.hoursPerDay"
             />
           </div>
           <div class="input-group">
             <Input
-              name="daysToWorkWeek"
+              name="daysPerWeek"
               label="Quantos dias quero trabalhar por semana?"
+              type="number"
+              v-model="profile.daysPerWeek"
+              :value="profile.daysPerWeek"
             />
             <Input
-              name="weeksForVacation"
-              label="Quantas semanas por ano quer tirar férias?"
+              name="vacationsPerYear"
+              label="Quantas semanas quer tirar férias(anual) ?"
+              type="number"
+              v-model="profile.vacationsPerYear"
+              :value="profile.vacationsPerYear"
             />
           </div>
         </section>
@@ -56,11 +75,69 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
+import api from "@/services/api";
+
+export interface IProfile {
+  name: string;
+  pictureLink: string;
+  monthlyBudget: number;
+  daysPerWeek: number;
+  hoursPerDay: number;
+  vacationsPerYear: number;
+  valueHour: number;
+}
+
 export default Vue.extend({
   name: "Home",
   components: {
     Header,
     Input,
+  },
+  data() {
+    return {
+      profile: {} as IProfile,
+    };
+  },
+  mounted() {
+    this.listProfileData();
+  },
+  methods: {
+    async listProfileData() {
+      api.get("/profile").then((response) => {
+        const {
+          daysPerWeek,
+          vacationsPerYear,
+          hoursPerDay,
+          monthlyBudget,
+        } = response.data;
+
+        const weeksPerYear = 52;
+
+        // remover as semanas de férias do ano, para pegar quantas semanas tem em 1 mês
+        const weeksPerMonth = (weeksPerYear - vacationsPerYear) / 12;
+
+        // total de horas trabalhadas na semana
+        const weekTotalHours = hoursPerDay * daysPerWeek;
+
+        // horas trabalhadas no mês
+        const monthlyTotalHours = weekTotalHours * weeksPerMonth;
+
+        // qual será o valor da minha hora?
+        const valueHour = Math.round(monthlyBudget / monthlyTotalHours);
+        return (this.profile = { ...response.data, valueHour });
+      });
+    },
+    async updateProfile() {
+      const updatedProfileData = {
+        ...this.profile,
+        monthlyBudget: Number(this.profile.monthlyBudget),
+        daysPerWeek: Number(this.profile.daysPerWeek),
+        hoursPerDay: Number(this.profile.hoursPerDay),
+        vacationsPerYear: Number(this.profile.vacationsPerYear),
+        valueHour: Number(this.profile.valueHour),
+      };
+      api.put("/profile", { ...updatedProfileData });
+    },
   },
 });
 </script>
@@ -137,7 +214,7 @@ div#profile-container {
         height: 50px;
         background: #36b336;
         border-radius: 5px;
-     
+
         margin-top: 24px;
       }
     }
@@ -154,7 +231,7 @@ div#profile-container {
           margin-top: 2.25rem;
         }
 
-        > div.input-group:last-child{
+        > div.input-group:last-child {
           margin-top: 20px;
         }
       }

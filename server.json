@@ -1,25 +1,20 @@
 {
-  "projects": [
+  "jobs": [
     {
-      "id": "1",
-      "title": "Pizzaria Guloso",
-      "deadline": 3,
-      "price": 4500,
-      "status": "DOING"
-    },
-    {
-      "id": "2",
-      "title": "Prust Modas",
-      "deadline": 7,
-      "price": 4500,
-      "status": "DONE"
-    },
-    {
-      "id": "3",
-      "title": "Onetwo Project",
-      "deadline": 1,
-      "price": 700,
-      "status": "DONE"
+      "title": "Pizzaria do João",
+      "dailyHours": 2,
+      "totalHours": 40,
+      "createdAt": "2021-05-24T23:46:46.965Z",
+      "id": 1
     }
-  ]
+  ],
+  "profile": {
+    "name": "Amanda",
+    "pictureLink": "https://avatars.githubusercontent.com/u/53491128?v=4",
+    "monthlyBudget": 9000,
+    "daysPerWeek": 5,
+    "hoursPerDay": 6,
+    "vacationsPerYear": 4,
+    "valueHour": 25
+  }
 }

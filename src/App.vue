@@ -25,7 +25,7 @@ button {
   font-size: 14px;
   line-height: 26px;
   text-transform: uppercase;
-   border-radius: 5px;
+  border-radius: 5px;
 }
 
 #app {

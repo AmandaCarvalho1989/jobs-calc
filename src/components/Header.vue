@@ -1,19 +1,20 @@
 <template>
   <header>
     <nav>
-    
-      <img src="../assets/arrow-left.svg" alt="Back"  @click="$router.go(-1)"/>
+      <img src="../assets/arrow-left.svg" alt="Back" @click="$router.go(-1)" />
       <p>{{ label }}</p>
     </nav>
   </header>
 </template>
 <script lang="ts">
+import api from "@/services/api";
 import Vue from "vue";
 export default Vue.extend({
   name: "Header",
   props: {
-    label: Object as () => string,
+    label: String as () => string,
   },
+  
 });
 </script>
 
@@ -39,9 +40,9 @@ header {
     max-width: 1120px;
     border-bottom: 1.5px solid #4f4f5b;
     font-weight: 600;
-    color: #BFBFCC;
+    color: #bfbfcc;
 
-    > img{
+    > img {
       left: 0;
       position: absolute;
       width: 24px;

@@ -1,17 +1,17 @@
 <template>
   <div class="project">
-    <span>{{ project.id }}</span>
-    <h3>{{ project.title }}</h3>
+    <span>{{ job.idx + 1 }}</span>
+    <h3>{{ job.title }}</h3>
     <div class="info">
       <span> Prazo</span>
-      <p>{{ project.deadline }} dias para entrega</p>
+      <p>{{ job.remaining }} dias para entrega</p>
     </div>
     <div class="info">
       <span> Valor</span>
-      <p>R$ {{ project.price }}</p>
+      <p>R$ {{ calculateBudget(this.job, this.valueHour) }}</p>
     </div>
 
-    <div v-if="project.status === 'DOING'" class="status doing">
+    <div v-if="job.status === 'progress'" class="status doing">
       Em andamento
     </div>
     <div v-else class="status done">Encerrado</div>
@@ -20,14 +20,18 @@
         @click="
           $router.push({
             name: 'Job',
-            params: { id: project.id, project },
+            params: { id: job.id, job },
           })
         "
       >
         <img src="../assets/edit.svg" alt="Edit" />
       </button>
       <button>
-        <img src="../assets/delete.svg" alt="Delete" />
+        <img
+          src="../assets/delete.svg"
+          alt="Delete"
+          @click="deleteJob(job.id)"
+        />
       </button>
     </div>
   </div>
@@ -35,22 +39,66 @@
 
 <script lang="ts">
 import Vue from "vue";
-export interface IProject {
+import api from "@/services/api";
+import { calculateBudget } from "@/utils";
+export interface IJob {
+  remaining: number;
+  status: string;
+  budget: number;
   id: string;
   title: string;
-  deadline: string;
-  price: string;
-  status: "DOING" | "DONE";
+  totalHours: number;
+  dailyHours: number;
 }
 
 export default Vue.extend({
-  name: "Project",
+  name: "JobItem",
+
   props: {
-    project: Object as () => IProject,
+    job: Object as () => IJob,
+    
+  },
+  data() {
+    return {
+      valueHour: 0,
+      profile: {} as any,
+    };
+  },
+  methods: {
+    async handleDelete(id: string) {
+      console.log('id', id)
+       this.$emit('delete', id);
+      // this.$emit('delete', id);
+    },
+    calculateBudget,
+  },
+  mounted() {
+    api.get("/profile").then((response) => {
+      const {
+        daysPerWeek,
+        vacationsPerYear,
+        hoursPerDay,
+        monthlyBudget,
+      } = response.data;
+
+      const weeksPerYear = 52;
+
+      // remover as semanas de férias do ano, para pegar quantas semanas tem em 1 mês
+      const weeksPerMonth = (weeksPerYear - vacationsPerYear) / 12;
+
+      // total de horas trabalhadas na semana
+      const weekTotalHours = hoursPerDay * daysPerWeek;
+
+      // horas trabalhadas no mês
+      const monthlyTotalHours = weekTotalHours * weeksPerMonth;
+
+      // qual será o valor da minha hora?
+      const valueHour = monthlyBudget / monthlyTotalHours;
+      return (this.valueHour = valueHour);
+    });
   },
 });
 </script>
-
 
 <style lang="scss" scoped>
 div.project {

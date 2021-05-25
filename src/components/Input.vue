@@ -1,18 +1,26 @@
 <template>
   <div class="input-block">
-    <label :for="name" :v-show="label.length">{{ label }}</label>
-    <input :type="type || 'text'" :name="name" :placeholder="placeholder" />
+    <label :for="name" :v-show="label && label.lengh">{{ label }}</label>
+    <input
+      :type="type || 'text'"
+      :name="name"
+      :placeholder="placeholder"
+      v-bind:value="value"
+      v-on:input="$emit('input', $event.target.value)"
+    />
   </div>
+  <!-- :value="value" -->
 </template>
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
   name: "Input",
   props: {
-    label: Object as () => string,
-    name: Object as () => string,
-    placeholder: Object as () => string,
-    type: Object as () => string,
+    label: String as () => string,
+    name: String as () => string,
+    placeholder: String as () => string,
+    type: String as () => string,
+    value: String as () => string,
   },
 });
 </script>

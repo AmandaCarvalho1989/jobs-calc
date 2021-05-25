@@ -6,33 +6,30 @@
           <img src="../assets/logo.png" alt="Jobs Calc Logo" />
           <div class="alert-info">
             <img src="../assets/alert-octagon.svg" alt="alert" />
-            <p>Você tem 2 horas livres no seu dia</p>
+            <p>Você tem {{ freeHours }} horas livres no seu dia</p>
           </div>
           <div class="profile">
             <div class="description">
-              <h3>Jaqueline</h3>
+              <h3>{{ profile.name }}</h3>
               <router-link to="/profile"> Ver perfil</router-link>
               <!-- <p>Ver perfil</p> -->
             </div>
-            <img
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-              alt="Profile image"
-            />
+            <img :src="profile.pictureLink" alt="Profile image" />
           </div>
         </div>
       </header>
       <div id="projects-info">
         <div class="data">
           <div>
-            <h3>{{ projects.length }}</h3>
+            <h3>{{ statusCount.total }}</h3>
             <p>Projetos ao total</p>
           </div>
           <div>
-            <h3>{{ doingProjectsQty }}</h3>
+            <h3>{{ statusCount.progress }}</h3>
             <p>Em andamento</p>
           </div>
           <div>
-            <h3>{{ doneProjectsQty }}</h3>
+            <h3>{{ statusCount.done }}</h3>
             <p>Encerrados</p>
           </div>
         </div>
@@ -43,8 +40,8 @@
       </div>
     </div>
     <main>
-      <div v-for="project in projects" :key="project.id" class="projects">
-        <Project :project="project" />
+      <div v-for="(job, idx) in jobs" :key="idx" class="projects">
+        <JobItem :job="{ ...job, idx: idx }" @delete="deleteJob" />
       </div>
     </main>
   </div>
@@ -52,33 +49,76 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Project, { IProject } from "@/components/Project.vue"; // @ is an alias to /src
+import JobItem, { IJob } from "@/components/JobItem.vue"; // @ is an alias to /src
+import { IProfile } from "@/views/Profile.vue";
 import api from "@/services/api";
+import { calculateBudget, remainingDays } from "@/utils";
 
 export default Vue.extend({
   name: "Home",
   components: {
-    Project,
+    JobItem,
   },
   data() {
     return {
-      projects: [] as IProject[],
+      freeHours: 0,
+      statusCount: {
+        progress: 0,
+        done: 0,
+        total: 0,
+      },
+      profile: {} as IProfile,
+      jobs: [] as IJob[],
     };
   },
 
   created() {
-    return api.get("/projects").then((response) => {
-      this.projects = response.data;
-    });
+    Promise.all([api.get("/profile"), api.get<IJob[]>("/jobs")]).then(
+      (values) => {
+        const profileData = values[0].data;
+        const jobs = values[1].data;
+
+        this.profile.name = profileData.name;
+        this.profile.pictureLink = profileData.pictureLink;
+
+        let statusCount = {
+          progress: 0,
+          done: 0,
+          total: jobs.length,
+        };
+        let jobTotalHours = 0;
+
+        const updatedJobs = jobs.map((job) => {
+          // ajustes no job
+          const remaining = remainingDays(job);
+          const status = remaining <= 0 ? "done" : "progress";
+
+          // Somando a quantidade de status
+          statusCount[status] += 1;
+
+          // total de horas por dia de cada Job em progresso
+          jobTotalHours =
+            status == "progress"
+              ? jobTotalHours + Number(job.dailyHours)
+              : jobTotalHours;
+
+          return {
+            ...job,
+            remaining,
+            status,
+            budget: calculateBudget(job, this.profile.valueHour),
+          };
+        });
+        this.statusCount = statusCount;
+        this.freeHours = this.profile.hoursPerDay - jobTotalHours;
+        this.jobs = updatedJobs;
+      }
+    );
   },
-  computed: {
-    doingProjectsQty(): number {
-      return this.projects.filter((project) => project.status === "DOING")
-        .length;
-    },
-    doneProjectsQty(): number {
-      return this.projects.filter((project) => project.status === "DONE")
-        .length;
+  methods: {
+    deleteJob(event: any, value: any) {
+     return console.log(event, value);
+      // await api.delete(`/jobs/${id}`);
     },
   },
 });
@@ -102,7 +142,7 @@ div.top-panel {
   justify-content: flex-start;
   align-items: center;
   padding-top: 32px;
-    color: #fcfdff;
+  color: #fcfdff;
 
   header {
     width: 100%;
@@ -208,7 +248,7 @@ main {
   max-width: 1120px;
   top: 232px;
 
-  > div.projects{
+  > div.projects {
     position: relative;
   }
 }
