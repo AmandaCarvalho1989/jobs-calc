@@ -30,7 +30,7 @@
         <img
           src="../assets/delete.svg"
           alt="Delete"
-          @click="deleteJob(job.id)"
+          @click="handleDelete"
         />
       </button>
     </div>
@@ -65,9 +65,9 @@ export default Vue.extend({
     };
   },
   methods: {
-    async handleDelete(id: string) {
-      console.log('id', id)
-       this.$emit('delete', id);
+    async handleDelete() {
+      console.log('id', this.job.id)
+       this.$emit('delete', { id: this.job.id});
       // this.$emit('delete', id);
     },
     calculateBudget,

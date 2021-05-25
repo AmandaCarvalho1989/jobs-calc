@@ -41,7 +41,7 @@
     </div>
     <main>
       <div v-for="(job, idx) in jobs" :key="idx" class="projects">
-        <JobItem :job="{ ...job, idx: idx }" @delete="deleteJob" />
+        <JobItem :job="{ ...job, idx: idx }" @delete="deleteJob()" />
       </div>
     </main>
   </div>

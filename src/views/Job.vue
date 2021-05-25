@@ -1,6 +1,6 @@
 <template>
   <div class="job-container">
-    <Header label="Adicionar novo job" />
+    <Header :label="`${job.id ? 'Editar job' : 'Adicionar novo job'}`" />
     <main>
       <form>
         <h1>Dados do Job</h1>
@@ -8,34 +8,30 @@
         <Input
           name="title"
           label="Nome do Job"
-          v-model="title"
-          :value="job ? job.title : title"
+          v-model="job.title"
+          :value="job.title || title"
         />
         <div class="input-group">
           <Input
             name="dailyHours"
             label="Estimativa de horas por dia"
             type="number"
-            v-model="dailyHours"
-            :value="job.dailyHours || dailyHours"
+            v-model="job.dailyHours"
+            :value="job.dailyHours"
           />
           <Input
             name="totalHours"
             label="Estimativa de horas para esse job"
             type="number"
-            v-model="totalHours"
-            :value="job ? job.totalHours : totalHours"
+            v-model="job.totalHours"
+            :value="job.totalHours"
           />
         </div>
-
-        <p>
-          {{ job }}
-        </p>
       </form>
 
       <section class="illustration">
         <img
-          v-if="job && job.title && job.title.length"
+          v-if="job.id"
           src="../assets/money-filled.svg"
           alt="Money"
         />
@@ -72,13 +68,17 @@ export default Vue.extend({
       title: "",
       totalHours: 0,
       dailyHours: 0,
-      job: {},
+      job: this.$route.params.job || {
+        title: '',
+        dailyHours: '0',
+        totalHours: '0'
+      },
     };
   },
-  mounted() {
-    this.job = this.$route.params.job;
-    console.log(this.$route.params.job);
-  },
+  // mounted() {
+  //   this.job = this.$route.params.job;
+  //   console.log(this.$route.params.job);
+  // },
   methods: {
     async createJob() {
       const newJob = {
