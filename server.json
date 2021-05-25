@@ -6,15 +6,28 @@
       "totalHours": 40,
       "createdAt": "2021-05-24T23:46:46.965Z",
       "id": 1
+    },
+    {
+      "title": "asdsadasdads",
+      "dailyHours": 3,
+      "totalHours": 56,
+      "createdAt": "2021-05-25T13:18:36.804Z",
+      "id": 2
+    },
+    {
+      "title": "Projeto teste",
+      "dailyHours": 2,
+      "totalHours": 18,
+      "id": 3
     }
   ],
   "profile": {
     "name": "Amanda",
     "pictureLink": "https://avatars.githubusercontent.com/u/53491128?v=4",
-    "monthlyBudget": 3500,
+    "monthlyBudget": 5000,
     "daysPerWeek": 5,
     "hoursPerDay": 6,
     "vacationsPerYear": 4,
-    "valueHour": 75
+    "valueHour": 29
   }
 }

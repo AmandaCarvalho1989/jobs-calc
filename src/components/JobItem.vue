@@ -27,11 +27,7 @@
         <img src="../assets/edit.svg" alt="Edit" />
       </button>
       <button>
-        <img
-          src="../assets/delete.svg"
-          alt="Delete"
-          @click="handleDelete"
-        />
+        <img src="../assets/delete.svg" alt="Delete" @click="handleDelete" />
       </button>
     </div>
   </div>
@@ -41,6 +37,7 @@
 import Vue from "vue";
 import api from "@/services/api";
 import { calculateBudget } from "@/utils";
+import { loadProfileData } from "@/services/profile";
 export interface IJob {
   remaining: number;
   status: string;
@@ -53,48 +50,26 @@ export interface IJob {
 
 export default Vue.extend({
   name: "JobItem",
-
+  inject: ["profile"],
   props: {
     job: Object as () => IJob,
-    
   },
   data() {
     return {
       valueHour: 0,
-      profile: {} as any,
     };
   },
   methods: {
     async handleDelete() {
-      console.log('id', this.job.id)
-       this.$emit('delete', { id: this.job.id});
+      console.log("id", this.job.id);
+      this.$emit("delete", { id: this.job.id });
       // this.$emit('delete', id);
     },
     calculateBudget,
   },
-  mounted() {
-    api.get("/profile").then((response) => {
-      const {
-        daysPerWeek,
-        vacationsPerYear,
-        hoursPerDay,
-        monthlyBudget,
-      } = response.data;
-
-      const weeksPerYear = 52;
-
-      // remover as semanas de férias do ano, para pegar quantas semanas tem em 1 mês
-      const weeksPerMonth = (weeksPerYear - vacationsPerYear) / 12;
-
-      // total de horas trabalhadas na semana
-      const weekTotalHours = hoursPerDay * daysPerWeek;
-
-      // horas trabalhadas no mês
-      const monthlyTotalHours = weekTotalHours * weeksPerMonth;
-
-      // qual será o valor da minha hora?
-      const valueHour = monthlyBudget / monthlyTotalHours;
-      return (this.valueHour = valueHour);
+  async mounted() {
+    await loadProfileData().then((response) => {
+      this.valueHour = response.valueHour;
     });
   },
 });

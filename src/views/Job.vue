@@ -9,7 +9,7 @@
           name="title"
           label="Nome do Job"
           v-model="job.title"
-          :value="job.title || title"
+          :value="job.title"
         />
         <div class="input-group">
           <Input
@@ -30,15 +30,14 @@
       </form>
 
       <section class="illustration">
-        <img
-          v-if="job.id"
-          src="../assets/money-filled.svg"
-          alt="Money"
-        />
+        <img v-if="job.id" src="../assets/money-filled.svg" alt="Money" />
         <img v-else src="../assets/money-disabled.svg" alt="Money" />
         <p>Preencha os dados ao lado para ver o valor do projeto</p>
         <div class="action-buttons">
-          <button class="save" @click="job ? updatedJob : createJob">
+          <button
+            class="save"
+            @click="job.id ? updateJob(job) : createJob(job)"
+          >
             Salvar
           </button>
           <button class="delete">
@@ -54,7 +53,7 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
-import api from "@/services/api";
+import { createJob, updateJob } from "@/services/job";
 
 export default Vue.extend({
   name: "Home",
@@ -65,42 +64,17 @@ export default Vue.extend({
 
   data() {
     return {
-      title: "",
-      totalHours: 0,
-      dailyHours: 0,
       job: this.$route.params.job || {
-        title: '',
-        dailyHours: '0',
-        totalHours: '0'
+        title: "",
+        dailyHours: 0,
+        totalHours: 0,
       },
     };
   },
-  // mounted() {
-  //   this.job = this.$route.params.job;
-  //   console.log(this.$route.params.job);
-  // },
+
   methods: {
-    async createJob() {
-      const newJob = {
-        title: this.title,
-        dailyHours: Number(this.dailyHours),
-        totalHours: Number(this.totalHours),
-        createdAt: new Date(),
-      };
-
-      return await api.post("/jobs", { ...newJob });
-    },
-
-    async updateJob() {
-      const id = this.job;
-      const newJob = {
-        title: this.title,
-        dailyHours: Number(this.dailyHours),
-        totalHours: Number(this.totalHours),
-      };
-
-      return await api.put(`/jobs/${id}`, { ...newJob });
-    },
+    createJob,
+    updateJob,
   },
 });
 </script>

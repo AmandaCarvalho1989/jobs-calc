@@ -10,7 +10,7 @@
 
           <strong>R$ {{ profile.valueHour }} </strong>
         </p>
-        <button @click="updateProfile">Salvar dados</button>
+        <button @click="updateProfileData(profile)">Salvar dados</button>
       </div>
       <div class="profile-data">
         <section>
@@ -21,11 +21,13 @@
               placeholder="Name"
               label=""
               :value="profile.name"
+              v-model="profile.name"
             />
             <Input
               name="pictureLink"
               placeholder="Picture Link"
               label=""
+              v-model="profile.pictureLink"
               :value="profile.pictureLink"
             />
           </div>
@@ -75,17 +77,8 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
-import api from "@/services/api";
-
-export interface IProfile {
-  name: string;
-  pictureLink: string;
-  monthlyBudget: number;
-  daysPerWeek: number;
-  hoursPerDay: number;
-  vacationsPerYear: number;
-  valueHour: number;
-}
+import { updateProfileData } from "@/services/profile";
+import { IProfile } from "@/models/profile";
 
 export default Vue.extend({
   name: "Home",
@@ -99,45 +92,10 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.listProfileData();
+    this.profile = this.$root.$data.currentProfile;
   },
   methods: {
-    async listProfileData() {
-      api.get("/profile").then((response) => {
-        const {
-          daysPerWeek,
-          vacationsPerYear,
-          hoursPerDay,
-          monthlyBudget,
-        } = response.data;
-
-        const weeksPerYear = 52;
-
-        // remover as semanas de férias do ano, para pegar quantas semanas tem em 1 mês
-        const weeksPerMonth = (weeksPerYear - vacationsPerYear) / 12;
-
-        // total de horas trabalhadas na semana
-        const weekTotalHours = hoursPerDay * daysPerWeek;
-
-        // horas trabalhadas no mês
-        const monthlyTotalHours = weekTotalHours * weeksPerMonth;
-
-        // qual será o valor da minha hora?
-        const valueHour = Math.round(monthlyBudget / monthlyTotalHours);
-        return (this.profile = { ...response.data, valueHour });
-      });
-    },
-    async updateProfile() {
-      const updatedProfileData = {
-        ...this.profile,
-        monthlyBudget: Number(this.profile.monthlyBudget),
-        daysPerWeek: Number(this.profile.daysPerWeek),
-        hoursPerDay: Number(this.profile.hoursPerDay),
-        vacationsPerYear: Number(this.profile.vacationsPerYear),
-        valueHour: Number(this.profile.valueHour),
-      };
-      api.put("/profile", { ...updatedProfileData });
-    },
+    updateProfileData,
   },
 });
 </script>

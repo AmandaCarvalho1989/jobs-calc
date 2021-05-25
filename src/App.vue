@@ -8,6 +8,29 @@
   </div>
 </template>
 
+<script lang="ts">
+import Vue from "vue";
+import { loadProfileData } from "./services/profile";
+
+export default Vue.extend({
+  data() {
+    return {
+      profile: {},
+    };
+  },
+  async mounted() {
+    console.log(this.$root.$data.currentProfile)
+    this.profile = await loadProfileData()
+  },
+  provide() {
+    return {
+      profile: () => this.profile,
+    };
+  },
+});
+
+</script>
+
 <style lang="scss">
 * {
   margin: 0;
