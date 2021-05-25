@@ -35,7 +35,6 @@ export default Vue.extend({
     job: Object as () => IJob,
   },
   mounted() {
-    console.log(this.open);
     this.isOpen = this.open;
   },
   methods: {
@@ -43,7 +42,6 @@ export default Vue.extend({
       this.$emit("onClose");
     },
     async handleDelete() {
-      console.log('deleting: ', this.job.id)
       await deleteJob(Number(this.job.id)).then(() => {
         this.closeModal();
         this.$router.push("/");

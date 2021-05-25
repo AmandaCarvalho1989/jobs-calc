@@ -32,22 +32,34 @@
       <section class="illustration">
         <img v-if="job.id" src="../assets/money-filled.svg" alt="Money" />
         <img v-else src="../assets/money-disabled.svg" alt="Money" />
-        <p>Preencha os dados ao lado para ver o valor do projeto</p>
+
+        <p v-if="!job.id">
+          Preencha os dados ao lado para ver o valor do projeto
+        </p>
+        <span v-else>
+          <p>O valor do projeto ficou em</p>
+          <strong> R$ {{ job.budget }} reais</strong>
+        </span>
         <div class="action-buttons">
-          <button
-            class="save"
-            @click="job.id ? updateJob(job) : createJob(job)"
-          >
+          <button class="save" @click="handleSaveJob">
             {{ job.id ? "Atualizar" : "Salvar" }}
           </button>
 
-          <button class="delete" :disabled="!job.id" @click="setModalOpened(true)">
+          <button
+            class="delete"
+            :disabled="!job.id"
+            @click="setModalOpened(true)"
+          >
             <img src="../assets/delete.svg" alt="Delete" />
           </button>
         </div>
       </section>
 
-      <Modal :open="isModalOpened" :job="job" @onClose="setModalOpened(false)" />
+      <Modal
+        :open="isModalOpened"
+        :job="job"
+        @onClose="setModalOpened(false)"
+      />
     </main>
   </div>
 </template>
@@ -58,7 +70,6 @@ import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
 import Modal from "@/components/Modal.vue";
 import { createJob, updateJob } from "@/services/job";
-import { IJob } from "@/models/job";
 
 export default Vue.extend({
   name: "Home",
@@ -70,7 +81,8 @@ export default Vue.extend({
 
   data() {
     return {
-      job: this.$route.params.job  || {
+      job: this.$route.params.job || {
+        id: undefined,
         title: "",
         dailyHours: 0,
         totalHours: 0,
@@ -79,17 +91,15 @@ export default Vue.extend({
       hasBudget: false,
     };
   },
-  mounted() {
-    console.log(this.job);
-  },
 
   methods: {
-    createJob,
-    updateJob,
-    // handleSaveJob(){
-    //   this.$route.
-
-    // }
+    handleSaveJob() {
+      if (typeof this.job === "object") {
+        if (this.job.id) updateJob(this.job);
+        else createJob(this.job);
+        this.$router.push("/");
+      }
+    },
     setModalOpened(opened: boolean) {
       this.isModalOpened = opened;
     },

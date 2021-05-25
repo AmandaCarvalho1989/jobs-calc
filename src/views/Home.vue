@@ -8,12 +8,14 @@
             <img src="../assets/alert-octagon.svg" alt="alert" />
             <p>Você tem {{ freeHours }} horas livres no seu dia</p>
           </div>
+
           <div class="profile">
             <div class="description">
               <h3>{{ profile.name }}</h3>
               <router-link to="/profile"> Ver perfil</router-link>
               <!-- <p>Ver perfil</p> -->
             </div>
+
             <img :src="profile.pictureLink" alt="Profile image" />
           </div>
         </div>
@@ -51,7 +53,7 @@
 import Vue from "vue";
 import JobItem from "@/components/JobItem.vue"; // @ is an alias to /src
 import { IJob } from "@/models/job";
-import { deleteJob, loadJobs } from "@/services/job";
+import { deleteJob } from "@/services/job";
 import { loadFormattedData } from "@/utils";
 
 export default Vue.extend({
@@ -71,7 +73,9 @@ export default Vue.extend({
       jobs: [] as IJob[],
     };
   },
-
+  beforeCreate() {
+    this.$data.profile = this.$root.$data.currentProfile;
+  },
   methods: {
     async loadData() {
       const data = await loadFormattedData();

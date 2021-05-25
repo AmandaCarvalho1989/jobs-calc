@@ -5,5 +5,5 @@ export interface IJob {
   dailyHours: number;
   remaining?: number;
   status?: string;
-  budget?: number;
+  budget?: any;
 }

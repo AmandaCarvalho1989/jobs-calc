@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+import { IProfile } from "./models/profile";
 import router from "./router";
 import { loadProfileData } from "./services/profile";
 
@@ -10,15 +11,7 @@ new Vue({
   router,
   render: (h) => h(App),
   data: {
-    currentProfile: {
-      name: "",
-      pictureLink: "",
-      monthlyBudget: 0,
-      daysPerWeek: 0,
-      hoursPerDay: 0,
-      vacationsPerYear: 0,
-      valueHour: 0,
-    },
+    currentProfile: {} as IProfile,
   },
 
   async mounted() {
