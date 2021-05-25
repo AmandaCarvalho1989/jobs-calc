@@ -41,7 +41,7 @@
     </div>
     <main>
       <div v-for="(job, idx) in jobs" :key="idx" class="projects">
-        <JobItem :job="{ ...job, idx: idx }" @delete="deleteJob()" />
+        <JobItem :job="{ ...job, idx: idx }" @delete="handleDeleteJob" />
       </div>
     </main>
   </div>
@@ -49,10 +49,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import JobItem, { IJob } from "@/components/JobItem.vue"; // @ is an alias to /src
-import { IProfile } from "@/views/Profile.vue";
-import api from "@/services/api";
-import { calculateBudget, remainingDays } from "@/utils";
+import JobItem from "@/components/JobItem.vue"; // @ is an alias to /src
+import { IJob } from "@/models/job";
+import { deleteJob, loadJobs } from "@/services/job";
+import { loadFormattedData } from "@/utils";
 
 export default Vue.extend({
   name: "Home",
@@ -67,58 +67,24 @@ export default Vue.extend({
         done: 0,
         total: 0,
       },
-      profile: {} as IProfile,
+      profile: this.$root.$data.currentProfile,
       jobs: [] as IJob[],
     };
   },
 
-  created() {
-    Promise.all([api.get("/profile"), api.get<IJob[]>("/jobs")]).then(
-      (values) => {
-        const profileData = values[0].data;
-        const jobs = values[1].data;
-
-        this.profile.name = profileData.name;
-        this.profile.pictureLink = profileData.pictureLink;
-
-        let statusCount = {
-          progress: 0,
-          done: 0,
-          total: jobs.length,
-        };
-        let jobTotalHours = 0;
-
-        const updatedJobs = jobs.map((job) => {
-          // ajustes no job
-          const remaining = remainingDays(job);
-          const status = remaining <= 0 ? "done" : "progress";
-
-          // Somando a quantidade de status
-          statusCount[status] += 1;
-
-          // total de horas por dia de cada Job em progresso
-          jobTotalHours =
-            status == "progress"
-              ? jobTotalHours + Number(job.dailyHours)
-              : jobTotalHours;
-
-          return {
-            ...job,
-            remaining,
-            status,
-            budget: calculateBudget(job, this.profile.valueHour),
-          };
-        });
-        this.statusCount = statusCount;
-        this.freeHours = this.profile.hoursPerDay - jobTotalHours;
-        this.jobs = updatedJobs;
-      }
-    );
+  async mounted() {
+    const data = await loadFormattedData();
+    this.statusCount = data.statusCount;
+    this.freeHours = data.freeHours;
+    this.jobs = data.updatedJobs;
   },
   methods: {
-    deleteJob(event: any, value: any) {
-     return console.log(event, value);
-      // await api.delete(`/jobs/${id}`);
+    async handleDeleteJob(id: number) {
+      await deleteJob(id);
+      const data = await loadFormattedData();
+      this.statusCount = data.statusCount;
+      this.freeHours = data.freeHours;
+      this.jobs = data.updatedJobs;
     },
   },
 });

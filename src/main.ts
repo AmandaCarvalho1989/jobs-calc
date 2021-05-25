@@ -10,10 +10,19 @@ new Vue({
   router,
   render: (h) => h(App),
   data: {
-    currentProfile: {},
+    currentProfile: {
+      name: "",
+      pictureLink: "",
+      monthlyBudget: 0,
+      daysPerWeek: 0,
+      hoursPerDay: 0,
+      vacationsPerYear: 0,
+      valueHour: 0,
+    },
   },
 
   async mounted() {
     this.currentProfile = await loadProfileData();
   },
+  methods: {},
 }).$mount("#app");

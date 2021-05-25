@@ -38,6 +38,7 @@ import Vue from "vue";
 import api from "@/services/api";
 import { calculateBudget } from "@/utils";
 import { loadProfileData } from "@/services/profile";
+import { deleteJob } from "@/services/job";
 export interface IJob {
   remaining: number;
   status: string;
@@ -60,9 +61,9 @@ export default Vue.extend({
     };
   },
   methods: {
-    async handleDelete() {
+    handleDelete() {
       console.log("id", this.job.id);
-      this.$emit("delete", { id: this.job.id });
+      this.$emit("delete", this.job.id);
       // this.$emit('delete', id);
     },
     calculateBudget,

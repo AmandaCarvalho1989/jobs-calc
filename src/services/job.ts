@@ -1,6 +1,13 @@
 import { IJob } from "@/models/job";
 import api from "./api";
 
+
+const loadJobs = async (): Promise<IJob[]> => {
+  return await (
+    await api.get("/jobs")
+  ).data;
+};
+
 const createJob = async (job: IJob): Promise<IJob> => {
   const newJob = {
     title: job.title,
@@ -21,4 +28,8 @@ const updateJob = async (job: IJob): Promise<IJob> => {
   return await api.put(`/jobs/${job.id}`, { ...newJob });
 };
 
-export { createJob, updateJob };
+const deleteJob = async (jobId: number) => {
+  await api.delete(`/jobs/${jobId}`);
+};
+
+export { createJob, updateJob, deleteJob, loadJobs };
