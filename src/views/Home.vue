@@ -72,20 +72,21 @@ export default Vue.extend({
     };
   },
 
-  async mounted() {
-    const data = await loadFormattedData();
-    this.statusCount = data.statusCount;
-    this.freeHours = data.freeHours;
-    this.jobs = data.updatedJobs;
-  },
   methods: {
-    async handleDeleteJob(id: number) {
-      await deleteJob(id);
+    async loadData() {
       const data = await loadFormattedData();
       this.statusCount = data.statusCount;
       this.freeHours = data.freeHours;
       this.jobs = data.updatedJobs;
     },
+
+    async handleDeleteJob(id: number) {
+      await deleteJob(id);
+      await this.loadData();
+    },
+  },
+  async mounted() {
+    await this.loadData();
   },
 });
 </script>

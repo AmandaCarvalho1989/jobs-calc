@@ -16,11 +16,11 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Input",
   props: {
-    label: String as () => string,
-    name: String as () => string,
-    placeholder: String as () => string,
-    type: String as () => string,
-    value: String as () => string,
+    label: String,
+    name: String,
+    placeholder: String,
+    type: String,
+    value: String || Number,
   },
 });
 </script>

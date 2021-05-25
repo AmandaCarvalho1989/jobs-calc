@@ -12,9 +12,8 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Header",
   props: {
-    label: String as () => string,
+    label: String,
   },
-  
 });
 </script>
 

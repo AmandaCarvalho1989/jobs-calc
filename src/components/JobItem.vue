@@ -51,7 +51,6 @@ export interface IJob {
 
 export default Vue.extend({
   name: "JobItem",
-  inject: ["profile"],
   props: {
     job: Object as () => IJob,
   },
@@ -62,9 +61,7 @@ export default Vue.extend({
   },
   methods: {
     handleDelete() {
-      console.log("id", this.job.id);
       this.$emit("delete", this.job.id);
-      // this.$emit('delete', id);
     },
     calculateBudget,
   },

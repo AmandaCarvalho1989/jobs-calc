@@ -1,34 +1,12 @@
 {
-  "jobs": [
-    {
-      "title": "Teste",
-      "dailyHours": 2,
-      "totalHours": 2,
-      "createdAt": "2021-05-25T14:34:09.440Z",
-      "id": 1
-    },
-    {
-      "title": "oi",
-      "dailyHours": 1,
-      "totalHours": 3,
-      "createdAt": "2021-05-25T14:34:48.657Z",
-      "id": 2
-    },
-    {
-      "title": "Cidade de papel",
-      "dailyHours": 6,
-      "totalHours": 64,
-      "createdAt": "2021-05-25T14:35:03.533Z",
-      "id": 3
-    }
-  ],
+  "jobs": [],
   "profile": {
     "name": "Amanda",
     "pictureLink": "https://avatars.githubusercontent.com/u/53491128?v=4",
-    "monthlyBudget": 2000,
+    "monthlyBudget": 3000,
     "daysPerWeek": 5,
     "hoursPerDay": 6,
     "vacationsPerYear": 4,
-    "valueHour": 42
+    "valueHour": 19
   }
 }

@@ -38,13 +38,16 @@
             class="save"
             @click="job.id ? updateJob(job) : createJob(job)"
           >
-            Salvar
+            {{ job.id ? "Atualizar" : "Salvar" }}
           </button>
-          <button class="delete">
+
+          <button class="delete" :disabled="!job.id" @click="setModalOpened(true)">
             <img src="../assets/delete.svg" alt="Delete" />
           </button>
         </div>
       </section>
+
+      <Modal :open="isModalOpened" :job="job" @onClose="setModalOpened(false)" />
     </main>
   </div>
 </template>
@@ -53,28 +56,43 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
+import Modal from "@/components/Modal.vue";
 import { createJob, updateJob } from "@/services/job";
+import { IJob } from "@/models/job";
 
 export default Vue.extend({
   name: "Home",
   components: {
     Header,
     Input,
+    Modal,
   },
 
   data() {
     return {
-      job: this.$route.params.job || {
+      job: this.$route.params.job  || {
         title: "",
         dailyHours: 0,
         totalHours: 0,
       },
+      isModalOpened: false,
+      hasBudget: false,
     };
+  },
+  mounted() {
+    console.log(this.job);
   },
 
   methods: {
     createJob,
     updateJob,
+    // handleSaveJob(){
+    //   this.$route.
+
+    // }
+    setModalOpened(opened: boolean) {
+      this.isModalOpened = opened;
+    },
   },
 });
 </script>
@@ -150,6 +168,7 @@ main {
         align-items: center;
         padding: 12px 64px;
         background: #36b336;
+        /* margin-right: 1rem; */
       }
       button.delete {
         width: 48px;

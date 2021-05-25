@@ -11,6 +11,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { loadProfileData } from "./services/profile";
+import Modal from "@/components/Modal.vue";
 
 export default Vue.extend({
   data() {
@@ -19,7 +20,6 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    console.log(this.$root.$data.currentProfile)
     this.profile = await loadProfileData()
   },
   provide() {
@@ -49,6 +49,11 @@ button {
   line-height: 26px;
   text-transform: uppercase;
   border-radius: 5px;
+
+  &:disabled{
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
 }
 
 #app {
