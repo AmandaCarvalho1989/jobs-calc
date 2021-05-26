@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <form>
+    <main>
       <h1>Bem-vindo</h1>
       <div class="github-info">
         <img src="../assets/github.svg" alt="Git hub" />
@@ -17,7 +17,7 @@
         </button>
       </div>
       <span v-show="error"> Não encontrado</span>
-    </form>
+    </main>
   </div>
 </template>
 
@@ -71,7 +71,7 @@ div.login-container {
   justify-content: center;
   color: #fcfdff;
 
-  form {
+  main {
     height: 400px;
     margin-left: 256px;
     display: flex;
