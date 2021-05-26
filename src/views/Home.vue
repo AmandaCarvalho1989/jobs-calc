@@ -96,6 +96,30 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@media (max-width: 800px) {
+  div.alert-info {
+    display: none;
+  }
+  img.logo {
+    width: 178px;
+  }
+
+  div.profile img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 600px) {
+  img.logo {
+    width: 158px;
+  }
+}
+@media (max-width: 400px) {
+  img.logo {
+    width: 138px;
+  }
+}
 div.home {
   position: relative;
   display: flex;
@@ -115,7 +139,7 @@ div.top-panel {
   padding-top: 32px;
   color: #fcfdff;
 
-  @media (max-width: 1400px) {
+  @media (max-width: 1200px) {
     padding-inline: 32px;
   }
 
@@ -139,23 +163,10 @@ div.top-panel {
         align-items: center;
       }
 
-      img.logo {
-        @media (max-width: 800px) {
-          width: 178px;
-        }
-        @media (max-width: 600px) {
-          width: 158px;
-        }
-        @media (max-width: 400px) {
-          width: 138px;
-        }
-      }
-
       div.alert-info {
         @media (max-width: 800px) {
           display: none;
         }
-
         gap: 0.5rem;
       }
       > div.profile {

@@ -144,6 +144,8 @@ div#profile-container {
       padding-inline: 32px;
       padding-top: 32px;
       flex-direction: column-reverse;
+
+     
     }
     > div.profile-info {
       width: 100%;

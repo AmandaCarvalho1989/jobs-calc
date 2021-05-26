@@ -6,9 +6,43 @@
 
 
 <style lang="scss">
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%; /* 15px */
+  }
+}
+
+@media (max-width: 970px) {
+  html {
+    font-size: 87.5%; /* 14px */
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    font-size: 75%; /* 12px */
+  }
+  h3{
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 590px) {
+  :root {
+    font-size: 62.25%; /* 10px */
+  }
+}
+
+body,
+input,
+button,
+textarea {
+  font: 500 1rem Inter;
+    color: #5a5a66;
+  border: none;
+}
+
 #app {
-  font-family: Inter, sans-serif;
-  color: #5a5a66;
   background-color: #f0f2f5;
   width: 100vw;
   height: 100%;
@@ -48,7 +82,6 @@ div.input-group {
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
-    
 
   @media (min-width: 1120px) {
     flex-direction: row;
@@ -75,7 +108,6 @@ div.input-group {
   border-width: 0;
 }
 
-
 .badge {
   display: flex;
   align-items: center;
@@ -90,16 +122,15 @@ div.input-group {
   line-height: 1.625rem; /* 26px of 16px root*/
 
   background-color: rgb(237, 237, 237);
-  
 }
 
-.progress .badge{
-  background: #E8F8E8;
-  color:#36B336;
+.progress .badge {
+  background: #e8f8e8;
+  color: #36b336;
 }
 
 .done .badge {
-  background: #FAECEB;
-  color:#EB3B35;
+  background: #faeceb;
+  color: #eb3b35;
 }
 </style>
