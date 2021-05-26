@@ -43,7 +43,7 @@
     </div>
     <main>
       <div v-for="(job, idx) in jobs" :key="idx" class="projects">
-        <JobItem :job="{ ...job, idx: idx }" @delete="handleDeleteJob" />
+        <JobCard :job="{ ...job, idx: idx }" @delete="handleDeleteJob" />
       </div>
     </main>
   </div>
@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import JobItem from "@/components/JobItem.vue"; // @ is an alias to /src
+import JobCard from "@/components/JobCard.vue"; // @ is an alias to /src
 import { IJob } from "@/models/job";
 import { deleteJob } from "@/services/job";
 import { loadFormattedData } from "@/utils";
@@ -59,7 +59,7 @@ import { loadFormattedData } from "@/utils";
 export default Vue.extend({
   name: "Home",
   components: {
-    JobItem,
+    JobCard,
   },
   data() {
     return {
@@ -143,6 +143,12 @@ div.top-panel {
         @media (max-width: 800px) {
           width: 178px;
         }
+        @media (max-width: 600px) {
+          width: 158px;
+        }
+        @media (max-width: 400px) {
+          width: 138px;
+        }
       }
 
       div.alert-info {
@@ -191,10 +197,18 @@ div.top-panel {
       font-size: 14px;
       flex-direction: column;
       align-items: flex-end;
+
+      > div.data {
+        width: 100%;
+        > div {
+          margin-right: 0;
+        }
+      }
     }
 
     > div.data {
       display: flex;
+      justify-content: space-between;
 
       > div {
         margin-right: 40px;
@@ -238,7 +252,6 @@ div.top-panel {
 
 main {
   position: absolute;
-  /* height: 64px; */
   width: 100%;
   max-width: 1120px;
   top: 232px;

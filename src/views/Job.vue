@@ -115,17 +115,21 @@ export default Vue.extend({
   section.illustration {
     width: 352px;
     min-width: 352px;
+    height: 100%;
+    > div {
+      justify-content: space-between;
+      margin-top: 0rem;
+    }
   }
 }
 div.job-container {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 main {
   padding-top: 64px;
@@ -150,6 +154,7 @@ main {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
 
     > h1 {
       width: 100%;
@@ -184,7 +189,8 @@ main {
     div {
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-evenly;
+      margin-top: 1rem;
 
       button.save {
         width: 181px;
@@ -198,8 +204,8 @@ main {
         /* margin-right: 1rem; */
       }
       button.delete {
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         background: #e1e3e6;
         display: flex;
         align-items: center;

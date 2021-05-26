@@ -35,19 +35,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import api from "@/services/api";
 import { calculateBudget } from "@/utils";
 import { loadProfileData } from "@/services/profile";
-import { deleteJob } from "@/services/job";
-export interface IJob {
-  remaining: number;
-  status: string;
-  budget: number;
-  id: string;
-  title: string;
-  totalHours: number;
-  dailyHours: number;
-}
+import { IJob } from "@/models/job";
 
 export default Vue.extend({
   name: "JobItem",
@@ -74,6 +64,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@media(max-width: 700px){
+  div.project {
+    width: 120px;
+  }
+}
 div.project {
   position: relative;
   z-index: 1;

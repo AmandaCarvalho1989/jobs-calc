@@ -127,9 +127,10 @@ div#profile-container {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
 
   main {
-    padding: 32px 0;
+    
     position: relative;
     width: 100%;
     height: calc(100% - 72px);
@@ -141,7 +142,8 @@ div#profile-container {
 
     @media (max-width: 900px) {
       padding-inline: 32px;
-      flex-direction: column;
+      padding-top: 32px;
+      flex-direction: column-reverse;
     }
     > div.profile-info {
       width: 100%;
@@ -205,6 +207,7 @@ div#profile-container {
       flex-direction: column;
       color: #5a5a66;
       text-align: left;
+      padding-top: 48px;
 
       section {
         &:last-child {
