@@ -3,7 +3,6 @@ import api from "./api";
 
 async function loadProfileData(): Promise<IProfile> {
   const response = await api.get("/profile");
-  // api.get("/profile").then((response) => {
   const { daysPerWeek, vacationsPerYear, hoursPerDay, monthlyBudget } =
     response.data;
 
@@ -20,10 +19,8 @@ async function loadProfileData(): Promise<IProfile> {
 
   // qual será o valor da minha hora?
   const valueHour = Math.round(monthlyBudget / monthlyTotalHours);
-  const formattedProfile = { ...response.data, valueHour };
 
   return { ...response.data, valueHour };
-  // });
 }
 
 async function updateProfileData(profile: IProfile): Promise<IProfile> {
