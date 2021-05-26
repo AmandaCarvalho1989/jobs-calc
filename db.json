@@ -1,18 +1,27 @@
 {
   "jobs": [
     {
-      "title": "JOb do everton",
+      "title": "Projeto 1",
       "dailyHours": 1,
       "totalHours": 1,
       "createdAt": "2021-05-26T12:23:55.731Z",
       "id": 2
     },
     {
-      "title": "Cidade de papel",
-      "dailyHours": 2,
-      "totalHours": 4,
-      "createdAt": "2021-05-26T13:01:19.895Z",
+      "title": "Teste",
+      "dailyHours": 5,
+      "totalHours": 15,
+      "createdAt": "2021-05-26T23:30:44.195Z",
       "id": 3
     }
-  ]
+  ],
+  "profile": {
+    "name": "Amanda Carvalho",
+    "pictureLink": "https://avatars.githubusercontent.com/u/53491128?v=4",
+    "monthlyBudget": 3000,
+    "hoursPerDay": 6,
+    "daysPerWeek": 4,
+    "vacationsPerYear": 2,
+    "valueHour": 30
+  }
 }

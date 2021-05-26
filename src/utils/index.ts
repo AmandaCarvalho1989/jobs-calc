@@ -3,6 +3,7 @@ import { loadJobs } from "@/services/job";
 import { loadProfileData } from "@/services/profile";
 
 export const calculateBudget = (job: any, valueHour: number) => {
+  console.log(job, valueHour)
   return Math.round(valueHour * job.totalHours).toFixed(2).replace('.', ',');
 };
 

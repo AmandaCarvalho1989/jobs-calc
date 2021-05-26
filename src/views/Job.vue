@@ -30,16 +30,27 @@
       </form>
 
       <section class="illustration">
-        <img v-if="job.id" src="../assets/money-filled.svg" alt="Money" />
+        <img
+          v-if="job.dailyHours && job.totalHours"
+          src="../assets/money-filled.svg"
+          alt="Money"
+        />
         <img v-else src="../assets/money-disabled.svg" alt="Money" />
-
-        <p v-if="!job.id">
+        <strong v-if="isNaN(valueHour)" class="error" v-show="isNaN(valueHour)">
+          Preencha as informações do perfil primeiro</strong
+        >
+        <span v-else-if="job.dailyHours && job.totalHours">
+          <p>O valor do projeto ficou em</p>
+          <strong>
+            R$
+            {{ calculateBudget(job, isNaN(valueHour) ? 0 : valueHour) }}
+            reais</strong
+          >
+        </span>
+        <p v-else>
           Preencha os dados ao lado para ver o valor do projeto
         </p>
-        <span v-else>
-          <p>O valor do projeto ficou em</p>
-          <strong> R$ {{ job.budget }} reais</strong>
-        </span>
+
         <div class="action-buttons">
           <button class="save" @click="handleSaveJob">
             {{ job.id ? "Atualizar" : "Salvar" }}
@@ -70,6 +81,7 @@ import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
 import Modal from "@/components/Modal.vue";
 import { createJob, updateJob } from "@/services/job";
+import { calculateBudget } from "@/utils";
 
 export default Vue.extend({
   name: "Home",
@@ -86,9 +98,11 @@ export default Vue.extend({
         title: "",
         dailyHours: 0,
         totalHours: 0,
+        budget: 0,
       },
       isModalOpened: false,
       hasBudget: false,
+      valueHour: this.$root.$data.currentProfile.valueHour,
     };
   },
 
@@ -103,7 +117,9 @@ export default Vue.extend({
     setModalOpened(opened: boolean) {
       this.isModalOpened = opened;
     },
+    calculateBudget,
   },
+  computed: {},
 });
 </script>
 
@@ -122,15 +138,7 @@ export default Vue.extend({
     }
   }
 }
-div.job-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 main {
   padding-top: 64px;
   position: relative;
@@ -213,5 +221,18 @@ main {
       }
     }
   }
+}
+
+div.job-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+strong.error {
+  color: #eb3b35;
 }
 </style>

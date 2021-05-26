@@ -29,7 +29,7 @@ export default Vue.extend({
   data() {
     return {
       username: "",
-      error: false
+      error: false,
     };
   },
   methods: {
@@ -72,13 +72,17 @@ div.login-container {
   color: #fcfdff;
 
   form {
-    width: 420px;
     height: 400px;
     margin-left: 256px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+
+    @media (max-width: 1120px) {
+      margin: 0 auto;
+      margin-left: auto;
+    }
 
     div.github-info {
       display: flex;
@@ -94,8 +98,12 @@ div.login-container {
       width: 420px;
       color: #ffffff;
 
+      @media (max-width: 600px) {
+         width: 300px;
+      }
+
       input {
-        width: 340px;
+        width: calc(100% - 64px);
         height: 100%;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
@@ -122,9 +130,9 @@ div.login-container {
     }
   }
 
-  span{
+  span {
     margin-top: 1rem;
-    color: #EB3B35;
+    color: #eb3b35;
   }
 }
 </style>
