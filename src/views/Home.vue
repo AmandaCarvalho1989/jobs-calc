@@ -11,12 +11,16 @@
 
           <div class="profile">
             <div class="description">
-              <h3>{{ profile.name }}</h3>
+              <h3>{{ profile.name || "Loading..." }}</h3>
               <router-link to="/profile"> Ver perfil</router-link>
-              <!-- <p>Ver perfil</p> -->
             </div>
 
-            <img :src="profile.pictureLink" alt="Profile image" />
+            <img
+              v-if="profile.pictureLink"
+              alt="Profile image"
+              :src="profile.pictureLink"
+            />
+            <div v-else class="img-placeholder"></div>
           </div>
         </div>
       </header>
@@ -55,6 +59,7 @@ import JobCard from "@/components/JobCard.vue"; // @ is an alias to /src
 import { IJob } from "@/models/job";
 import { deleteJob } from "@/services/job";
 import { loadFormattedData } from "@/utils";
+import { loadProfileData } from "@/services/profile";
 
 export default Vue.extend({
   name: "Home",
@@ -73,8 +78,10 @@ export default Vue.extend({
       jobs: [] as IJob[],
     };
   },
-  beforeCreate() {
-    this.$data.profile = this.$root.$data.currentProfile;
+
+  async mounted() {
+    await this.loadData();
+    // this.profile = await loadProfileData();
   },
   methods: {
     async loadData() {
@@ -88,9 +95,6 @@ export default Vue.extend({
       await deleteJob(id);
       await this.loadData();
     },
-  },
-  async mounted() {
-    await this.loadData();
   },
 });
 </script>
@@ -119,6 +123,16 @@ export default Vue.extend({
   img.logo {
     width: 138px;
   }
+}
+
+div.img-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #ffd199;
+  border: 2.5px solid #f1972c;
+  box-sizing: border-box;
+  object-fit: cover;
 }
 div.home {
   position: relative;
@@ -175,6 +189,7 @@ div.top-panel {
 
         div.description {
           flex-direction: column;
+          align-items: flex-end;
           h3 {
             font-size: 20px;
           }

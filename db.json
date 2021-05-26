@@ -14,14 +14,5 @@
       "createdAt": "2021-05-26T13:01:19.895Z",
       "id": 3
     }
-  ],
-  "profile": {
-    "name": "Amanda",
-    "pictureLink": "https://avatars.githubusercontent.com/u/53491128?v=4",
-    "monthlyBudget": 3000,
-    "daysPerWeek": 5,
-    "hoursPerDay": 6,
-    "vacationsPerYear": 4,
-    "valueHour": 19
-  }
+  ]
 }

@@ -14,8 +14,8 @@ new Vue({
     currentProfile: {} as IProfile,
   },
 
-  async mounted() {
-    this.currentProfile = await loadProfileData();
-  },
+  // async mounted() {
+  //   this.currentProfile = await loadProfileData();
+  // },
   methods: {},
 }).$mount("#app");

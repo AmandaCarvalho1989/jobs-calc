@@ -7,6 +7,7 @@
       :placeholder="placeholder"
       v-bind:value="value"
       v-on:input="$emit('input', $event.target.value)"
+      min="1" max="5"
     />
   </div>
   <!-- :value="value" -->
@@ -21,6 +22,7 @@ export default Vue.extend({
     placeholder: String,
     type: String,
     value: String || Number,
+    max: String
   },
 });
 </script>

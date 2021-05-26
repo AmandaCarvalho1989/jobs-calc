@@ -10,7 +10,7 @@
 
           <strong>R$ {{ profile.valueHour }} </strong>
         </p>
-        <button @click="updateProfileData(profile)">Salvar dados</button>
+        <button @click="updateProfile()">Salvar dados</button>
       </div>
       <div class="profile-data">
         <section>
@@ -95,7 +95,10 @@ export default Vue.extend({
     this.profile = this.$root.$data.currentProfile;
   },
   methods: {
-    updateProfileData,
+    async updateProfile() {
+      const response = await updateProfileData(this.profile);
+      return (this.$root.$data.currentProfile = response);
+    },
   },
 });
 </script>
@@ -127,10 +130,8 @@ div#profile-container {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
 
   main {
-    
     position: relative;
     width: 100%;
     height: calc(100% - 72px);
@@ -144,8 +145,6 @@ div#profile-container {
       padding-inline: 32px;
       padding-top: 32px;
       flex-direction: column-reverse;
-
-     
     }
     > div.profile-info {
       width: 100%;

@@ -97,7 +97,7 @@ export default Vue.extend({
       if (typeof this.job === "object") {
         if (this.job.id) updateJob(this.job);
         else createJob(this.job);
-        this.$router.push("/");
+        this.$router.push("/dashboard");
       }
     },
     setModalOpened(opened: boolean) {
