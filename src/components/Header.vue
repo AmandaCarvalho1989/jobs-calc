@@ -29,6 +29,10 @@ header {
   align-items: center;
   z-index: 99;
 
+   @media (max-width: 1400px) {
+    padding-inline: 32px;
+  }
+
   > nav {
     position: relative;
     width: 100%;

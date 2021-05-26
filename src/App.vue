@@ -35,18 +35,27 @@ button {
   color: #5a5a66;
   background-color: #f0f2f5;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+
+  @media (min-width: 1120px) {
+    height: 100vh;
+  }
 }
 
 div.input-group {
   width: 100%;
   height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-top: 32px;
 
-  > div.input-block {
-    width: 308px;
+  @media (min-width: 1120px) {
+    flex-direction: row;
+    margin-top: 32px;
+
+    > div.input-block {
+      width: 308px;
+    }
   }
 }
 </style>

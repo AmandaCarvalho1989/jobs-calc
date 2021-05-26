@@ -1,5 +1,13 @@
 {
-  "jobs": [],
+  "jobs": [
+    {
+      "title": "xczxc",
+      "dailyHours": 5,
+      "totalHours": 3,
+      "createdAt": "2021-05-25T23:58:20.310Z",
+      "id": 1
+    }
+  ],
   "profile": {
     "name": "Amanda",
     "pictureLink": "https://avatars.githubusercontent.com/u/53491128?v=4",

@@ -108,14 +108,24 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@media (min-width: 1120px) {
+  div.job-container {
+    overflow: hidden;
+  }
+  section.illustration {
+    width: 352px;
+    min-width: 352px;
+  }
+}
 div.job-container {
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 main {
   padding-top: 64px;
@@ -127,8 +137,15 @@ main {
   align-items: flex-start;
   gap: 5rem;
 
+  @media (max-width: 900px) {
+    padding-inline: 32px;
+    max-width: 100%;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
   form {
-    width: 641px;
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -146,8 +163,8 @@ main {
     }
   }
   section.illustration {
-    width: 352px;
-    min-width: 352px;
+    width: 100%;
+
     height: 330px;
     background: #fcfdff;
     border: 1px solid #e1e3e6;

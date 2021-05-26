@@ -101,28 +101,50 @@ export default Vue.extend({
 </script>
 
 <style lang='scss' scoped>
+@media (min-width: 1120px) {
+  div#profile-container {
+    overflow: hidden;
+  }
+  div.profile-info {
+    width: 352px;
+    min-width: 352px;
+  }
+  div.profile-data {
+    height: 456px;
+  }
+  main {
+    max-width: 1120px;
+    flex-direction: row;
+    gap: 5rem;
+  }
+}
+
 div#profile-container {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
   main {
+    padding: 32px 0;
     position: relative;
-    width: 1120px;
+    width: 100%;
     height: calc(100% - 72px);
-    max-width: 1120px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 5rem;
+
+    gap: 2rem;
+
+    @media (max-width: 900px) {
+      padding-inline: 32px;
+      flex-direction: column;
+    }
     > div.profile-info {
-      width: 352px;
-      min-width: 352px;
+      width: 100%;
       height: 456px;
       background: #fcfdff;
       border: 1px solid #e1e3e6;
@@ -178,7 +200,7 @@ div#profile-container {
     }
     > div.profile-data {
       width: 100%;
-      height: 456px;
+      height: 100%;
       display: flex;
       flex-direction: column;
       color: #5a5a66;

@@ -3,7 +3,7 @@
     <div class="top-panel">
       <header>
         <div id="header-content">
-          <img src="../assets/logo.png" alt="Jobs Calc Logo" />
+          <img class="logo" src="../assets/logo.svg" alt="Jobs Calc Logo" />
           <div class="alert-info">
             <img src="../assets/alert-octagon.svg" alt="alert" />
             <p>Você tem {{ freeHours }} horas livres no seu dia</p>
@@ -115,6 +115,10 @@ div.top-panel {
   padding-top: 32px;
   color: #fcfdff;
 
+  @media (max-width: 1400px) {
+    padding-inline: 32px;
+  }
+
   header {
     width: 100%;
     height: 64px;
@@ -134,7 +138,18 @@ div.top-panel {
         display: flex;
         align-items: center;
       }
+
+      img.logo {
+        @media (max-width: 800px) {
+          width: 178px;
+        }
+      }
+
       div.alert-info {
+        @media (max-width: 800px) {
+          display: none;
+        }
+
         gap: 0.5rem;
       }
       > div.profile {
@@ -172,6 +187,12 @@ div.top-panel {
     display: flex;
     justify-content: space-between;
 
+    @media (max-width: 770px) {
+      font-size: 14px;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
     > div.data {
       display: flex;
 
@@ -184,6 +205,9 @@ div.top-panel {
         p {
           color: #bfbfcc;
         }
+      }
+      @media (max-width: 1200px) {
+        margin-bottom: 1rem;
       }
     }
 
@@ -214,10 +238,15 @@ div.top-panel {
 
 main {
   position: absolute;
-  height: 64px;
+  /* height: 64px; */
   width: 100%;
   max-width: 1120px;
   top: 232px;
+
+  @media (max-width: 1200px) {
+    padding-inline: 32px;
+    top: 95%;
+  }
 
   > div.projects {
     position: relative;
