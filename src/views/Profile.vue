@@ -10,7 +10,7 @@
 
           <strong>R$ {{ profile.valueHour }} </strong>
         </p>
-        <button @click="updateProfile()">Salvar dados</button>
+        <button @click="saveProfileData()">Salvar dados</button>
       </div>
       <div class="profile-data">
         <section>
@@ -77,7 +77,11 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import Input from "@/components/Input.vue";
-import { updateProfileData } from "@/services/profile";
+import {
+  updateProfileData,
+  createProfileData,
+  loadProfileData,
+} from "@/services/profile";
 import { IProfile } from "@/models/profile";
 
 export default Vue.extend({
@@ -95,9 +99,16 @@ export default Vue.extend({
     this.profile = this.$root.$data.currentProfile;
   },
   methods: {
-    async updateProfile() {
-      const response = await updateProfileData(this.profile);
-      return (this.$root.$data.currentProfile = response);
+    async saveProfileData() {
+      const profile = await loadProfileData();
+      console.log({profile});
+      if (profile) {
+        const response = await createProfileData(this.profile);
+        return (this.$root.$data.currentProfile = response);
+      } else {
+        const response = await updateProfileData(this.profile);
+        return (this.$root.$data.currentProfile = response);
+      }
     },
   },
 });

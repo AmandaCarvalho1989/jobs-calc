@@ -23,6 +23,25 @@ async function loadProfileData(): Promise<IProfile> {
   return { ...response.data, valueHour };
 }
 
+async function createProfileData(profile: IProfile): Promise<IProfile> {
+  const { daysPerWeek, vacationsPerYear, hoursPerDay, monthlyBudget } = profile;
+
+  const weeksPerMonth = (weeksPerYear - vacationsPerYear) / 12;
+  const weekTotalHours = hoursPerDay * daysPerWeek;
+  const monthlyTotalHours = weekTotalHours * weeksPerMonth;
+  const valueHour = Math.round(monthlyBudget / monthlyTotalHours);
+
+  const updatedProfileData = {
+    ...profile,
+    monthlyBudget: Number(profile.monthlyBudget),
+    daysPerWeek: Number(profile.daysPerWeek),
+    hoursPerDay: Number(profile.hoursPerDay),
+    vacationsPerYear: Number(profile.vacationsPerYear),
+    valueHour: Number(valueHour),
+  };
+  const response = api.post("/profile", { ...updatedProfileData });
+  return (await response).data;
+}
 async function updateProfileData(profile: IProfile): Promise<IProfile> {
   const { daysPerWeek, vacationsPerYear, hoursPerDay, monthlyBudget } = profile;
 
@@ -43,4 +62,4 @@ async function updateProfileData(profile: IProfile): Promise<IProfile> {
   return (await response).data;
 }
 
-export { loadProfileData, updateProfileData };
+export { loadProfileData, updateProfileData,createProfileData };
