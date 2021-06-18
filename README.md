@@ -41,10 +41,10 @@ Follow the steps below
 $ yarn
 
 # Run the JSON server
-$ yarn server
+$ yarn run init-server
 
 # Start the project
-$ yarn dev
+$ yarn run serve
 ```
 
 ## 🎨 Layout 
