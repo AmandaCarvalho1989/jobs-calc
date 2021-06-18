@@ -32,7 +32,7 @@ This project was developed using the following technologies:
 Clone the project and access the folder.
 
 ```bash
-$ git clone https://github.com/amandacarvalho1989/podcastr.git && cd podcastr
+$ git clone https://github.com/amandacarvalho1989/jobs-calc.git && cd jobs-calc
 ```
 
 Follow the steps below
